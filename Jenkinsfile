@@ -5,6 +5,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Build the Docker image
                     docker.build('hello-java-image')
                 }
             }
@@ -12,8 +13,18 @@ pipeline {
 
         stage('Run Docker Image') {
             steps {
-                sh 'docker run --rm hello-java-image'
+                script {
+                    // Run the Docker container to execute the Java program
+                    sh 'docker run --rm hello-java-image'
+                }
             }
+        }
+    }
+
+    post {
+        always {
+            // Clean up any temporary files and workspaces
+            cleanWs()
         }
     }
 }
